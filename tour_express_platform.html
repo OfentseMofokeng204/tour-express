@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tour Express — Tour Packages</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+  :root{
+    --navy:#0A1F3D; --navy2:#0E2A50; --navy3:#132C54; --gold:#C9A227; --gold2:#F2C94C;
+    --paper:#FBF9F4; --ink:#1F2937; --muted:#6b7280; --line:#e6e1d3; --cream:#F4F0E6;
+    --serif:'Fraunces', Georgia, serif; --sans:'Inter', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:var(--sans); background:var(--navy); color:var(--ink); line-height:1.5;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  nav{
+    position:sticky; top:0; z-index:50; background:rgba(10,31,61,0.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(201,162,39,0.25); padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .mark{width:36px; height:36px; border-radius:50%; background:var(--navy2); border:1.5px solid var(--gold); display:flex; align-items:center; justify-content:center; color:var(--gold2); font-weight:800; font-size:11px;}
+  .brand h1{color:#fff; font-family:var(--serif); font-size:19px; font-weight:600;}
+  .navlinks{display:flex; gap:26px; font-size:13px; color:#c7d2e0; font-weight:500;}
+  .navlinks a:hover{color:var(--gold2);}
+  @media(max-width:680px){.navlinks{display:none;}}
+
+  .hero{
+    background:linear-gradient(160deg, var(--navy) 0%, var(--navy3) 60%, var(--navy2) 100%);
+    padding:80px 24px 60px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero .zigzag{position:absolute; top:20px; left:50%; transform:translateX(-50%); width:280px; opacity:0.5;}
+  .hero h2.eyebrow{color:var(--gold2); font-size:13px; letter-spacing:2px; text-transform:uppercase; font-weight:700; margin-bottom:18px;}
+  .hero h1{font-family:var(--serif); color:#fff; font-size:clamp(34px,6vw,58px); font-weight:700; line-height:1.08; margin-bottom:16px;}
+  .hero h1 span{color:var(--gold2);}
+  .hero p.sub{color:#a9bdd6; font-size:17px; max-width:520px; margin:0 auto 34px; font-style:italic; font-family:var(--serif);}
+  .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{padding:14px 28px; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; border:none; font-family:var(--sans); letter-spacing:0.2px; transition:transform 0.15s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-gold{background:var(--gold2); color:var(--navy);}
+  .btn-outline{background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,0.35);}
+
+  .how{background:var(--cream); padding:70px 24px;}
+  .how-inner{max-width:1000px; margin:0 auto;}
+  .section-head{text-align:center; margin-bottom:48px;}
+  .section-head .eyebrow{color:var(--gold); font-size:12px; letter-spacing:2px; text-transform:uppercase; font-weight:700;}
+  .section-head h2{font-family:var(--serif); font-size:32px; color:var(--navy); margin-top:8px;}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:32px;}
+  @media(max-width:700px){.steps{grid-template-columns:1fr;}}
+  .step .num{font-family:var(--serif); font-size:44px; color:var(--gold); font-weight:700; line-height:1;}
+  .step h3{font-size:17px; margin:12px 0 8px; color:var(--navy);}
+  .step p{font-size:14px; color:var(--muted);}
+
+  .packages{background:#fff; padding:70px 24px;}
+  .pkg-grid{max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media(max-width:820px){.pkg-grid{grid-template-columns:1fr;}}
+  .pkg-card{border-radius:14px; overflow:hidden; border:1px solid #ece7d8; cursor:pointer; transition:box-shadow 0.2s ease, transform 0.2s ease;}
+  .pkg-card:hover{box-shadow:0 18px 40px rgba(10,31,61,0.15); transform:translateY(-4px);}
+  .pkg-img{height:180px; background-size:cover; background-position:center; position:relative;}
+  .pkg-rating{position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.95); border-radius:20px; padding:4px 10px; font-size:12px; font-weight:700; color:var(--navy);}
+  .pkg-body{padding:18px;}
+  .pkg-body .cat{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--gold); font-weight:700;}
+  .pkg-body h3{font-family:var(--serif); font-size:19px; margin:6px 0 8px; color:var(--navy);}
+  .pkg-body p{font-size:13px; color:var(--muted); margin-bottom:14px;}
+  .pkg-price{display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--line); padding-top:12px;}
+  .pkg-price .amt{font-family:var(--serif); font-size:20px; font-weight:700; color:var(--navy);}
+  .pkg-price .from{font-size:11px; color:var(--muted);}
+
+  .builder{background:var(--cream); padding:70px 24px;}
+  .builder-inner{max-width:920px; margin:0 auto;}
+  .panel{background:#fff; border-radius:14px; padding:28px; box-shadow:0 10px 30px rgba(10,31,61,0.08); margin-bottom:20px;}
+  h3.pnl-head{font-family:var(--serif); font-size:19px; color:var(--navy); margin-bottom:18px; padding-bottom:12px; border-bottom:2px solid var(--gold);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+  label{display:block; font-size:11px; font-weight:700; color:var(--muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.4px;}
+  input[type=text], input[type=email], input[type=number], select{width:100%; padding:10px; border:1px solid var(--line); border-radius:7px; font-size:14px; font-family:var(--sans);}
+  input:focus, select:focus{outline:2px solid var(--gold); outline-offset:1px;}
+  .field{margin-bottom:14px;}
+  table.items{width:100%; border-collapse:collapse; margin-top:6px;}
+  table.items th{text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--line);}
+  table.items td{padding:8px; border-bottom:1px solid #f0ede2; vertical-align:top;}
+  table.items input, table.items select{padding:7px 8px; font-size:13px;}
+  .price-cell{font-weight:700; color:var(--navy); font-size:14px; padding-top:11px; display:block; font-family:var(--serif);}
+  .del-btn{background:none; border:1px solid #d1d5db; color:#9ca3af; width:28px; height:28px; border-radius:6px; cursor:pointer;}
+  .del-btn:hover{border-color:#ef4444; color:#ef4444;}
+  .add-row{margin-top:12px; background:none; border:1.5px dashed var(--gold); color:var(--navy); padding:9px 16px; border-radius:7px; font-size:13px; font-weight:700; cursor:pointer; font-family:var(--sans);}
+  .totals{margin-top:18px; padding-top:16px; border-top:2px solid var(--navy); display:flex; flex-direction:column; gap:6px; align-items:flex-end;}
+  .totals .row{display:flex; justify-content:space-between; width:280px; font-size:14px; color:var(--muted);}
+  .totals .row.grand{font-size:22px; color:var(--navy); font-weight:800; padding-top:8px; border-top:1px dashed var(--line); font-family:var(--serif);}
+  .genbar{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;}
+
+  #preview{display:none;}
+  #preview.show{display:block;}
+  .quote-doc{background:var(--navy); color:#EDEDED; border-radius:14px; padding:36px;}
+  .quote-head{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid var(--gold); padding-bottom:20px; margin-bottom:24px; flex-wrap:wrap; gap:12px;}
+  .quote-head .co h2{font-family:var(--serif); color:var(--gold2); font-size:22px;}
+  .quote-head .co p{color:#8FA0BB; font-size:12px; margin-top:3px;}
+  .quote-head .meta{text-align:right; font-size:12px; color:#8FA0BB;}
+  .quote-head .meta strong{color:#EDEDED; display:block; font-size:13px;}
+  .quote-title{font-family:var(--serif); font-size:28px; color:#fff; margin-bottom:4px;}
+  .quote-sub{color:#8FA0BB; font-size:13px; margin-bottom:24px;}
+  table.qt{width:100%; border-collapse:collapse; margin-bottom:20px;}
+  table.qt th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--gold2); padding:8px 6px; border-bottom:1px solid var(--gold);}
+  table.qt td{padding:10px 6px; border-bottom:1px solid #1a3358; font-size:14px;}
+  table.qt td.num{text-align:right; font-family:var(--serif);}
+  .qt-totals{display:flex; justify-content:flex-end;}
+  .qt-totals-box{width:280px;}
+  .qt-totals-box .row.grand{font-size:22px; color:#fff; font-weight:800; border-top:1px solid var(--gold); padding-top:12px; font-family:var(--serif); display:flex; justify-content:space-between;}
+  .qt-footer{margin-top:28px; padding-top:16px; border-top:1px solid #1a3358; font-size:12px; color:#8FA0BB; text-align:center;}
+  .qt-footer strong{color:var(--gold2);}
+  .email-status{margin-top:10px; font-size:13px; padding:10px; border-radius:6px; display:none;}
+  .email-status.ok{background:#eafaf0; color:#0a7a3d; display:block;}
+  .email-status.setup{background:#fff8e6; color:#8a6300; display:block;}
+
+  .signup{background:var(--navy); padding:70px 24px; text-align:center;}
+  .signup h2{font-family:var(--serif); color:#fff; font-size:30px; margin-bottom:10px;}
+  .signup p{color:#a9bdd6; margin-bottom:28px; font-size:15px;}
+  .signup-form{display:flex; gap:10px; justify-content:center; max-width:440px; margin:0 auto; flex-wrap:wrap;}
+  .signup-form input{flex:1; min-width:220px; padding:14px 16px; border-radius:8px; border:none; font-size:14px; font-family:var(--sans);}
+  .signup-note{color:#6d84a5; font-size:11px; margin-top:14px;}
+  .signup-count{color:var(--gold2); font-size:13px; margin-top:16px; font-weight:600;}
+
+  footer{background:var(--navy3); color:#8FA0BB; text-align:center; padding:32px 24px; font-size:12px;}
+  footer strong{color:var(--gold2);}
+
+  @media print{
+    nav, .hero, .how, .packages, .signup, footer, .builder-inner .panel:not(#preview), .genbar{display:none !important;}
+    #preview{display:block !important;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><div class="mark">SZM</div><h1>Tour Express</h1></div>
+  <div class="navlinks"><a href="#packages">Packages</a><a href="#builder">Build a Quote</a><a href="#signup">Updates</a></div>
+</nav>
+
+<section class="hero">
+  <svg class="zigzag" viewBox="0 0 280 40" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 30 L70 12 L140 30 L210 12 L270 30" fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  </svg>
+  <h2 class="eyebrow">SZM Express presents</h2>
+  <h1>Local trips, <span>planned properly.</span></h1>
+  <p class="sub">Moving what matters, on time, every time.</p>
+  <div class="cta-row">
+    <button class="btn btn-gold" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">Build a Quote</button>
+    <button class="btn btn-outline" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'})">See Packages</button>
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-inner">
+    <div class="section-head"><div class="eyebrow">The process</div><h2>How Tour Express works</h2></div>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><h3>Tell us the trip</h3><p>Where, when, and who's going. We research real, vetted local accommodation and activities — no rushed, cut-corner bookings.</p></div>
+      <div class="step"><div class="num">02</div><h3>Get a real quote</h3><p>One clear price, built from actual supplier quotes. No hidden mark-ups, no obligation until you're ready.</p></div>
+      <div class="step"><div class="num">03</div><h3>We drive it</h3><p>Transfers run by SZM Express directly — the one part of your trip we don't outsource to anyone.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="packages" id="packages">
+  <div class="section-head"><div class="eyebrow">Popular right now</div><h2>Sample packages</h2></div>
+  <div class="pkg-grid">
+    <div class="pkg-card" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">
+      <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=500&q=80')"><div class="pkg-rating">★ New</div></div>
+      <div class="pkg-body"><div class="cat">Weekend Getaway</div><h3>Pretoria City &amp; Culture</h3><p>3 nights, city tour, museum &amp; zoo visits, private transfers throughout.</p>
+      <div class="pkg-price"><span class="amt">R 18,500</span><span class="from">from, per couple</span></div></div>
+    </div>
+    <div class="pkg-card" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">
+      <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=500&q=80')"><div class="pkg-rating">★ New</div></div>
+      <div class="pkg-body"><div class="cat">Day Trip</div><h3>Adventure Day Out</h3><p>Full-day activity package with return transfers and lunch stop included.</p>
+      <div class="pkg-price"><span class="amt">R 4,200</span><span class="from">from, per person</span></div></div>
+    </div>
+    <div class="pkg-card" onclick="document.getElementById('builder').scrollIntoView({behavior:'smooth'})">
+      <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&q=80')"><div class="pkg-rating">★ New</div></div>
+      <div class="pkg-body"><div class="cat">Airport Transfer</div><h3>OR Tambo Meet &amp; Greet</h3><p>Private airport pickup, luggage assistance, direct to your accommodation.</p>
+      <div class="pkg-price"><span class="amt">R 950</span><span class="from">from, one-way</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="builder" id="builder">
+  <div class="builder-inner">
+    <div class="section-head"><div class="eyebrow">Build your own</div><h2>Quotation Builder</h2></div>
+
+    <div class="panel no-print">
+      <h3 class="pnl-head">Client &amp; Trip Details</h3>
+      <div class="grid2">
+        <div class="field"><label>Client Name</label><input type="text" id="clientName" placeholder="e.g. Mr &amp; Mrs Dlamini"></div>
+        <div class="field"><label>Client Email (for sending quote)</label><input type="email" id="clientEmail" placeholder="client@email.com"></div>
+        <div class="field"><label>Trip / Package Name</label><input type="text" id="tripName" placeholder="e.g. Pretoria Weekend Getaway"></div>
+        <div class="field"><label>Travel Dates</label><input type="text" id="dateFrom" placeholder="e.g. 22–24 August 2026"></div>
+      </div>
+    </div>
+
+    <div class="panel no-print">
+      <h3 class="pnl-head">Line Items</h3>
+      <table class="items">
+        <thead><tr><th>Description</th><th>Category</th><th>Your Cost (R)</th><th>Markup</th><th>Client Price</th><th></th></tr></thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+      <button class="add-row" onclick="addRow()">+ Add line item</button>
+      <div class="totals">
+        <div class="row"><span>Your total cost</span><span id="totCost">R 0.00</span></div>
+        <div class="row"><span>Total markup / commission</span><span id="totMarkup">R 0.00</span></div>
+        <div class="row grand"><span>Client Total</span><span id="totGrand">R 0.00</span></div>
+      </div>
+      <div class="genbar"><button class="btn btn-gold" onclick="generateQuote()">Generate Quotation →</button></div>
+    </div>
+
+    <div id="preview">
+      <div class="quote-doc" id="quoteDoc"></div>
+      <div class="genbar no-print" style="margin-top:14px;">
+        <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy)" onclick="window.print()">Print / Save as PDF</button>
+        <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy)" onclick="sendQuoteEmail()">Email to Client</button>
+        <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy)" onclick="backToEdit()">← Back to edit</button>
+      </div>
+      <div id="emailStatus" class="email-status"></div>
+    </div>
+  </div>
+</section>
+
+<section class="signup" id="signup">
+  <h2>Get trip ideas &amp; updates</h2>
+  <p>New packages, seasonal deals, and travel tips from SZM Express — straight to your inbox.</p>
+  <div class="signup-form">
+    <input type="email" id="signupEmail" placeholder="you@email.com">
+    <button class="btn btn-gold" onclick="submitSignup()">Sign Up</button>
+  </div>
+  <div class="signup-count" id="signupCount"></div>
+  <p class="signup-note">Prototype note: emails are stored locally in this tool. Connect a real mailing platform (e.g. Mailchimp, MailerLite) to actually send campaigns.</p>
+</section>
+
+<footer>
+  <strong>SZM Express (Pty) Ltd</strong> — Logistics · ICT · Transport<br>
+  Reg 2026/580670/07 · B-BBEE Level 1 · CSD MAAA1744281<br>
+  574 Pretorius Street, Arcadia, Pretoria · 067 923 5759
+</footer>
+
+<script>
+let rowCount = 0;
+function addRow(desc, cat, cost, markupType, markupVal){
+  rowCount++;
+  const tbody = document.getElementById('itemsBody');
+  const tr = document.createElement('tr');
+  tr.id = 'row-' + rowCount;
+  tr.innerHTML = `
+    <td><input type="text" class="f-desc" value="${desc||''}" placeholder="e.g. Sun Hotel, 3 nights"></td>
+    <td><select class="f-cat"><option ${cat==='Accommodation'?'selected':''}>Accommodation</option><option ${cat==='Tour/Activity'?'selected':''}>Tour/Activity</option><option ${cat==='Transport'?'selected':''}>Transport</option><option ${cat==='Other'?'selected':''}>Other</option></select></td>
+    <td><input type="number" class="f-cost" value="${cost||''}" placeholder="0.00" oninput="recalc()"></td>
+    <td><div style="display:flex; gap:4px;"><select class="f-mtype" style="width:56px;" onchange="recalc()"><option value="pct" ${markupType==='pct'?'selected':''}>%</option><option value="flat" ${markupType==='flat'?'selected':''}>R</option></select><input type="number" class="f-mval" value="${markupVal||''}" placeholder="0" oninput="recalc()"></div></td>
+    <td><span class="price-cell f-price">R 0.00</span></td>
+    <td><button class="del-btn" onclick="delRow('row-${rowCount}')">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+  recalc();
+}
+function delRow(id){ document.getElementById(id).remove(); recalc(); }
+function recalc(){
+  let totCost=0, totPrice=0;
+  document.querySelectorAll('#itemsBody tr').forEach(tr=>{
+    const cost = parseFloat(tr.querySelector('.f-cost').value) || 0;
+    const mtype = tr.querySelector('.f-mtype').value;
+    const mval = parseFloat(tr.querySelector('.f-mval').value) || 0;
+    let price = mtype==='pct' ? cost * (1 + mval/100) : cost + mval;
+    tr.querySelector('.f-price').textContent = 'R ' + price.toFixed(2);
+    totCost += cost; totPrice += price;
+  });
+  document.getElementById('totCost').textContent = 'R ' + totCost.toFixed(2);
+  document.getElementById('totMarkup').textContent = 'R ' + (totPrice-totCost).toFixed(2);
+  document.getElementById('totGrand').textContent = 'R ' + totPrice.toFixed(2);
+}
+
+let lastQuote = {};
+function generateQuote(){
+  const client = document.getElementById('clientName').value || 'Valued Client';
+  const email = document.getElementById('clientEmail').value || '';
+  const trip = document.getElementById('tripName').value || 'Your Trip';
+  const dates = document.getElementById('dateFrom').value || '—';
+  const ref = 'TE-' + Date.now().toString().slice(-6);
+
+  let rowsHtml = ''; let totPrice = 0;
+  document.querySelectorAll('#itemsBody tr').forEach(tr=>{
+    const desc = tr.querySelector('.f-desc').value || 'Item';
+    const cat = tr.querySelector('.f-cat').value;
+    const cost = parseFloat(tr.querySelector('.f-cost').value) || 0;
+    const mtype = tr.querySelector('.f-mtype').value;
+    const mval = parseFloat(tr.querySelector('.f-mval').value) || 0;
+    let price = mtype==='pct' ? cost * (1 + mval/100) : cost + mval;
+    totPrice += price;
+    rowsHtml += `<tr><td>${desc}<br><span style="color:#8FA0BB;font-size:11px;">${cat}</span></td><td class="num">R ${price.toFixed(2)}</td></tr>`;
+  });
+
+  lastQuote = {client, email, trip, dates, ref, total: totPrice.toFixed(2)};
+
+  document.getElementById('quoteDoc').innerHTML = `
+    <div class="quote-head">
+      <div class="co"><h2>SZM EXPRESS (PTY) LTD</h2><p>Tour Express — Logistics · ICT · Transport</p><p>574 Pretorius Street, Arcadia, Pretoria, 0083</p><p>067 923 5759 · ofentsemofokeng204@gmail.com</p></div>
+      <div class="meta"><strong>Quotation ${ref}</strong>Date: ${new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'})}<br>B-BBEE Level 1 · CSD: MAAA1744281</div>
+    </div>
+    <h1 class="quote-title">${trip}</h1>
+    <p class="quote-sub">Prepared for ${client} &nbsp;·&nbsp; Travel dates: ${dates}</p>
+    <table class="qt"><thead><tr><th>Included</th><th style="text-align:right;">Price</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+    <div class="qt-totals"><div class="qt-totals-box"><div class="row grand"><span>Total Package Price</span><span>R ${totPrice.toFixed(2)}</span></div></div></div>
+    <div class="qt-footer">Quotation valid for 7 days from date of issue. Final booking confirmed on receipt of payment.<br><strong>SZM Express</strong> — Local, reliable, on the ground with you.</div>
+  `;
+  document.getElementById('preview').classList.add('show');
+  document.querySelectorAll('.builder-inner .panel.no-print').forEach(p=>p.style.display='none');
+  document.getElementById('emailStatus').className = 'email-status';
+}
+
+function backToEdit(){
+  document.getElementById('preview').classList.remove('show');
+  document.querySelectorAll('.builder-inner .panel.no-print').forEach(p=>p.style.display='block');
+}
+
+function sendQuoteEmail(){
+  const status = document.getElementById('emailStatus');
+  if(!lastQuote.email){
+    status.className = 'email-status setup';
+    status.textContent = 'Add a client email above before sending.';
+    return;
+  }
+  // To make this actually send: sign up free at emailjs.com, then replace the three
+  // placeholders below with your Service ID, Template ID, and Public Key from your EmailJS dashboard.
+  status.className = 'email-status setup';
+  status.textContent = 'Email sending not yet connected — needs a free EmailJS account (see comment in the code near sendQuoteEmail). For now, use "Print / Save as PDF" and attach it manually.';
+}
+
+async function submitSignup(){
+  const email = document.getElementById('signupEmail').value.trim();
+  if(!email || !email.includes('@')){ alert('Enter a valid email'); return; }
+  try{
+    const key = 'signup:' + email.replace(/[^a-zA-Z0-9]/g, '_');
+    await window.storage.set(key, JSON.stringify({email, date: new Date().toISOString()}), true);
+    document.getElementById('signupEmail').value = '';
+    await refreshSignupCount();
+    document.getElementById('signupCount').textContent = "You're on the list! Thanks for signing up.";
+  }catch(e){
+    document.getElementById('signupCount').textContent = 'Could not save right now — try again shortly.';
+  }
+}
+async function refreshSignupCount(){
+  try{
+    const list = await window.storage.list('signup:', true);
+    if(list && list.keys) document.getElementById('signupCount').textContent = list.keys.length + ' people signed up so far';
+  }catch(e){}
+}
+refreshSignupCount();
+
+addRow('Sun Hotel, 3 nights accommodation', 'Accommodation', 10000, 'pct', 10);
+addRow('Day tours — Zoo, Museum, local attractions', 'Tour/Activity', 5000, 'pct', 10);
+addRow('Mercedes V-Class transfers, weekend', 'Transport', 3500, 'pct', 15);
+</script>
+</body>
+</html>
